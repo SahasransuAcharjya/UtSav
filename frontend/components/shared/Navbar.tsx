@@ -1,43 +1,41 @@
 // frontend/components/shared/Navbar.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, User, LogOut, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import ThemeToggle from './ThemeToggle';  // ← IMPORT THEME TOGGLE
+import ThemeToggle from './ThemeToggle';
+import { useAuth } from '@/hooks/useAuth';  // ✅ NEW HOOK
+import { cn } from '@/lib/utils';
 
 export default function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<'customer' | 'vendor' | null>(null);
-  const [userName, setUserName] = useState('');
+  const { isAuthenticated, user, logout, isLoading } = useAuth();  // ✅ SINGLE HOOK
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        setIsAuthenticated(true);
-        setUserRole(payload.role as 'customer' | 'vendor');
-        setUserName(payload.name || 'User');
-      } catch (error) {
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      }
-    }
-  }, []);
+  const userRole = user?.role;
+  const userName = user?.name;
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsAuthenticated(false);
-    setUserRole(null);
-    setUserName('');
+    logout();  // ✅ HOOK HANDLES CLEANUP
     setIsMobileMenuOpen(false);
-    window.location.href = '/';
   };
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <nav className="backdrop-blur-xl bg-white/80 dark:bg-black/80 border-b border-saffron/20 sticky top-0 z-50 h-16">
+        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-full">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-saffron via-gold to-emerald rounded-2xl animate-pulse" />
+            <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
+          </div>
+          <div className="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-2xl animate-pulse" />
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav className="backdrop-blur-xl bg-white/80 dark:bg-black/80 border-b border-saffron/20 dark:border-velvet/20 sticky top-0 z-50 supports-[backdrop-filter:blur(20px)]:bg-white/60 dark:supports-[backdrop-filter:blur(20px)]:bg-black/60">
@@ -67,7 +65,7 @@ export default function Navbar() {
               Home
             </Link>
             
-            {isAuthenticated ? (
+            {isAuthenticated && user ? (
               <>
                 {userRole === 'customer' && (
                   <>
@@ -125,7 +123,7 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {isAuthenticated ? (
+            {isAuthenticated && user ? (
               <>
                 {/* User Role Badge */}
                 <Badge 
@@ -139,17 +137,17 @@ export default function Navbar() {
                   {userRole === 'customer' ? '👤 Customer' : '💼 Vendor'}
                 </Badge>
 
-                {/* Profile Dropdown (simple version) */}
+                {/* Profile Avatar */}
                 <div className="flex items-center gap-2 p-2 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 cursor-pointer group border border-transparent hover:border-saffron/30">
-                  <div className="w-8 h-8 bg-gradient-to-br from-gray-200 dark:from-gray-700 to-gray-300 rounded-full flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-saffron group-hover:to-gold">
-                    <User className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-white transition-colors" />
+                  <div className="w-9 h-9 bg-gradient-to-br from-gray-200 dark:from-gray-700 to-gray-300 rounded-full flex items-center justify-center overflow-hidden group-hover:bg-gradient-to-br group-hover:from-saffron group-hover:to-gold transition-all duration-300">
+                    <User className="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-white" />
                   </div>
-                  <span className="font-jakarta font-semibold text-gray-700 dark:text-gray-300 hidden lg:block group-hover:text-saffron transition-colors">
-                    Hi, {userName.split(' ')[0]}
+                  <span className="font-jakarta font-semibold text-sm lg:text-base text-gray-700 dark:text-gray-300 hidden lg:block truncate max-w-24 group-hover:text-saffron transition-colors">
+                    {userName?.split(' ')[0] || 'User'}
                   </span>
                 </div>
 
-                {/* Logout Button */}
+                {/* Logout */}
                 <Button 
                   onClick={handleLogout}
                   variant="ghost" 
@@ -157,19 +155,18 @@ export default function Navbar() {
                   className="flex items-center gap-2 font-jakarta hover:bg-red-50 dark:hover:bg-red-950/50 hover:text-red-600 dark:hover:text-red-400 border border-gray-200 dark:border-gray-700 font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span className="hidden sm:inline">Logout</span>
+                  <span className="hidden lg:block">Logout</span>
                 </Button>
               </>
             ) : (
               <>
-                {/* Guest CTAs */}
                 <Link href="/login">
                   <Button 
                     variant="outline" 
                     size="sm"
-                    className="font-jakarta border-velvet/30 dark:border-velvet/50 hover:bg-velvet hover:text-white hover:border-velvet font-medium px-6 py-2 rounded-xl transition-all duration-200"
+                    className="font-jakarta border-2 border-velvet/30 dark:border-velvet/50 hover:bg-velvet hover:text-white hover:border-velvet font-medium px-6 py-2 rounded-xl shadow-sm transition-all duration-300"
                   >
-                    Login
+                    Sign In
                   </Button>
                 </Link>
                 <Link href="/register">
@@ -183,13 +180,13 @@ export default function Navbar() {
               </>
             )}
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="md:hidden w-10 h-10 p-0 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 border border-transparent hover:border-saffron/30 transition-all duration-200"
+                  className="md:hidden w-11 h-11 p-0 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 border border-transparent hover:border-saffron/30 transition-all duration-200 shadow-sm"
                 >
                   <Menu className="w-6 h-6" />
                   <span className="sr-only">Toggle menu</span>
@@ -197,12 +194,12 @@ export default function Navbar() {
               </SheetTrigger>
               <SheetContent 
                 side="right" 
-                className="w-80 p-0 border-l-saffron/20 bg-white/95 dark:bg-black/95 backdrop-blur-xl font-jakarta"
+                className="w-80 p-0 border-l-saffron/20 dark:border-gold/30 bg-white/95 dark:bg-black/95 backdrop-blur-xl font-jakarta"
               >
                 {/* Mobile Header */}
-                <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-saffron to-gold rounded-xl flex items-center justify-center flex-shrink-0">
-                    <Sparkles className="w-5 h-5 text-white" />
+                <div className="p-6 border-b border-gray-200 dark:border-gray-800 flex items-center gap-3 sticky top-0 bg-inherit backdrop-blur-sm z-10">
+                  <div className="w-11 h-11 bg-gradient-to-br from-saffron to-gold rounded-xl flex items-center justify-center flex-shrink-0 shadow-md">
+                    <Sparkles className="w-6 h-6 text-white" />
                   </div>
                   <div>
                     <h2 className="text-xl font-playfair font-bold text-velvet dark:text-gray-100">UtSav</h2>
@@ -211,29 +208,29 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile Navigation */}
-                <nav className="flex-1 p-6 space-y-2">
+                <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
                   <Link 
                     href="/" 
-                    className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 text-lg font-medium"
+                    className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 text-lg font-medium border-l-4 border-transparent hover:border-saffron"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     🏠 Home
                   </Link>
 
-                  {isAuthenticated ? (
+                  {isAuthenticated && user ? (
                     <>
                       {userRole === 'customer' && (
                         <>
                           <Link 
                             href="/customer/dashboard" 
-                            className="flex items-center gap-3 py-4 px-4 bg-emerald/10 dark:bg-emerald/20 rounded-2xl font-semibold text-emerald transition-all duration-200 text-lg"
+                            className="flex items-center gap-3 py-4 px-4 bg-emerald/10 dark:bg-emerald/20 border-l-4 border-emerald rounded-2xl font-semibold text-emerald transition-all duration-200 text-lg"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             📊 Dashboard
                           </Link>
                           <Link 
                             href="/customer/onboarding" 
-                            className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 text-lg font-medium"
+                            className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 border-l-4 border-transparent hover:border-saffron transition-all duration-200 text-lg font-medium"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             ✨ New Event
@@ -244,14 +241,14 @@ export default function Navbar() {
                         <>
                           <Link 
                             href="/vendor/dashboard" 
-                            className="flex items-center gap-3 py-4 px-4 bg-saffron/10 dark:bg-saffron/20 rounded-2xl font-semibold text-saffron transition-all duration-200 text-lg"
+                            className="flex items-center gap-3 py-4 px-4 bg-saffron/10 dark:bg-saffron/20 border-l-4 border-saffron rounded-2xl font-semibold text-saffron transition-all duration-200 text-lg"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             📋 Requisitions
                           </Link>
                           <Link 
                             href="/vendor/payments" 
-                            className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-emerald/10 dark:hover:bg-emerald/20 transition-all duration-200 text-lg font-medium"
+                            className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-emerald/10 dark:hover:bg-emerald/20 border-l-4 border-transparent hover:border-emerald transition-all duration-200 text-lg font-medium"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             💰 Payments
@@ -259,28 +256,26 @@ export default function Navbar() {
                         </>
                       )}
                       
-                      {/* Mobile Logout */}
                       <Button 
                         onClick={handleLogout}
-                        className="w-full mt-4 bg-red-50 dark:bg-red-950/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 dark:text-red-400 border-2 border-red-200 dark:border-red-800 font-semibold py-3 rounded-2xl transition-all duration-200"
-                        variant="outline"
+                        className="w-full mt-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-0"
                       >
                         <LogOut className="w-5 h-5 mr-2" />
-                        Logout
+                        Logout Account
                       </Button>
                     </>
                   ) : (
                     <>
                       <Link 
                         href="/login" 
-                        className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 text-lg font-medium"
+                        className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 border-l-4 border-transparent hover:border-blue-500 transition-all duration-200 text-lg font-medium"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        🔑 Login
+                        🔑 Sign In
                       </Link>
                       <Link 
                         href="/register" 
-                        className="flex items-center gap-3 py-4 px-4 bg-gradient-to-r from-saffron to-gold text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                        className="flex items-center gap-3 py-4 px-4 bg-gradient-to-r from-saffron to-gold text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl border-l-4 border-saffron transition-all duration-300 text-lg"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         🚀 Get Started
