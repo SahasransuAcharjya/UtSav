@@ -53,13 +53,15 @@
   * {
     /* @apply border-border; */
   }
+
   body {
-    @apply bg-background text-foreground;
+    /* @apply bg-background text-foreground; */
   }
 }
 
 /* UtSav Custom Utilities */
 @layer utilities {
+
   /* Glow Price Animation */
   .glow-price {
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
@@ -80,6 +82,7 @@
   .hover-glow {
     @apply relative;
   }
+
   .hover-glow::before {
     content: '';
     @apply absolute inset-0 rounded-2xl opacity-0 bg-gradient-to-r from-saffron/20 to-emerald/20 blur-xl transition-opacity duration-300 group-hover:opacity-100;
@@ -93,26 +96,37 @@
 
 /* Keyframe Animations */
 @keyframes glow {
-  from { 
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); 
+  from {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
   }
-  to { 
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 40px rgba(254, 153, 51, 0.3); 
+
+  to {
+    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 40px rgba(254, 153, 51, 0.3);
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes bounce-glow {
-  0%, 100% { 
-    transform: scale(1); 
+
+  0%,
+  100% {
+    transform: scale(1);
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
   }
-  50% { 
-    transform: scale(1.05); 
+
+  50% {
+    transform: scale(1.05);
     box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
   }
 }
@@ -139,7 +153,7 @@
   .font-jakarta {
     font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   }
-  
+
   .font-playfair {
     font-family: 'Playfair Display', serif;
   }
