@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshAuth = useCallback(() => {
     const token = localStorage.getItem('token');
-    
+
     if (token && !isTokenExpired(token)) {
       try {
         const decoded = jwtDecode<User>(token);
@@ -78,6 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     refreshAuth();
   }, [refreshAuth]);
 

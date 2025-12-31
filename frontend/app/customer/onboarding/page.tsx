@@ -36,7 +36,7 @@ export default function CustomerOnboarding() {
         }),
       });
 
-      const data = await res.json();
+      const data: { summary: string } = await res.json();
       setMessages(prev => [...prev, { role: 'ai', content: data.summary }]);
       setSummary(data.summary);
     } catch (error) {
@@ -63,8 +63,8 @@ export default function CustomerOnboarding() {
                 >
                   <div
                     className={`max-w-xs lg:max-w-md p-4 rounded-2xl ${msg.role === 'user'
-                        ? 'bg-gradient-to-r from-saffron to-gold text-white'
-                        : 'bg-white/50 border border-saffron/30'
+                      ? 'bg-gradient-to-r from-saffron to-gold text-white'
+                      : 'bg-white/50 border border-saffron/30'
                       }`}
                   >
                     <p className="text-sm font-jakarta">{msg.content}</p>
