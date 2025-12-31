@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, Users, MapPin, DollarSign, Clock, Star } from 'lucide-react';
+import { Event } from '@/types/event';
 
 export default function VendorDashboard() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, urgent, high-budget
 
@@ -21,11 +22,11 @@ export default function VendorDashboard() {
       const token = localStorage.getItem('token');
       const res = await fetch('http://localhost:5000/api/events/feed', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token || ''}`,
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (res.ok) {
         const data = await res.json();
         setEvents(data);
@@ -37,8 +38,8 @@ export default function VendorDashboard() {
     }
   };
 
-  const getUrgencyBadge = (createdAt) => {
-    const daysOld = Math.floor((Date.now() - new Date(createdAt)) / (1000 * 60 * 60 * 24));
+  const getUrgencyBadge = (createdAt: string) => {
+    const daysOld = Math.floor((Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24));
     if (daysOld >= 7) return <Badge className="bg-red-500 text-white">7+ DAYS</Badge>;
     if (daysOld >= 3) return <Badge className="bg-orange-500 text-white">URGENT</Badge>;
     return <Badge className="bg-emerald text-white">NEW</Badge>;
@@ -46,7 +47,7 @@ export default function VendorDashboard() {
 
   const filteredEvents = events.filter(event => {
     if (filter === 'all') return true;
-    if (filter === 'urgent') return event.createdAt < new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+    if (filter === 'urgent') return new Date(event.createdAt).getTime() < (Date.now() - 3 * 24 * 60 * 60 * 1000);
     if (filter === 'high-budget') return event.budgetMin > 50000;
     return true;
   });
@@ -108,11 +109,11 @@ export default function VendorDashboard() {
                       ₹{event.budgetMax}
                     </div>
                   </div>
-                  
+
                   <h3 className="text-xl font-playfair text-velvet font-bold mb-4 group-hover:text-saffron transition-colors">
                     {event.title}
                   </h3>
-                  
+
                   <div className="space-y-3 mb-6 text-sm">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4 text-velvet" />
@@ -127,7 +128,7 @@ export default function VendorDashboard() {
                       {event.location}
                     </div>
                   </div>
-                  
+
                   <Button className="w-full bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white font-jakarta group-hover:scale-[1.02] transition-transform">
                     <Star className="w-4 h-4 mr-2" />
                     Bid Now

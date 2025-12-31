@@ -7,8 +7,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { DollarSign, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
+interface VendorPayment {
+  id: string;
+  event: string;
+  milestone: string;
+  amount: number;
+  status: 'paid' | 'pending' | 'overdue';
+  date: string;
+}
+
 export default function VendorPayments() {
-  const [payments, setPayments] = useState([]);
+  const [payments, setPayments] = useState<VendorPayment[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,11 +30,11 @@ export default function VendorPayments() {
       // Mock endpoint - implement in backend later
       const res = await fetch('http://localhost:5000/api/payments/vendor', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token || ''}`,
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (res.ok) {
         const data = await res.json();
         setPayments(data);
@@ -37,7 +46,7 @@ export default function VendorPayments() {
     }
   };
 
-  const mockPayments = [
+  const mockPayments: VendorPayment[] = [
     {
       id: '1',
       event: 'Wedding - Delhi',
@@ -64,7 +73,7 @@ export default function VendorPayments() {
     },
   ];
 
-  const getStatusIcon = (status) => {
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case 'paid': return <CheckCircle className="w-5 h-5 text-emerald" />;
       case 'pending': return <Clock className="w-5 h-5 text-saffron" />;

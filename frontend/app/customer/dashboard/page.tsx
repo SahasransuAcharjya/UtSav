@@ -2,8 +2,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
-import { ProtectedRoute } from '@/components/shared/ProtectedRoute';
+import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { EventCard } from '@/components/customer/EventCard';

@@ -9,8 +9,25 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { DollarSign, CheckCircle, Clock, AlertCircle, CreditCard, ArrowRight } from 'lucide-react';
 
+interface PaymentMilestone {
+  title: string;
+  amount: number;
+  status: 'paid' | 'pending';
+  id?: string;
+}
+
+interface CustomerPayment {
+  id: string;
+  eventTitle: string;
+  eventId: string;
+  totalBudget: number;
+  paidAmount: number;
+  remaining: number;
+  milestones: PaymentMilestone[];
+}
+
 export default function CustomerPayments() {
-  const [payments, setPayments] = useState([]);
+  const [payments, setPayments] = useState<CustomerPayment[]>([]);
   const [loading, setLoading] = useState(true);
   const [showRazorpay, setShowRazorpay] = useState(false);
 
@@ -23,11 +40,11 @@ export default function CustomerPayments() {
       const token = localStorage.getItem('token');
       const res = await fetch('http://localhost:5000/api/payments/customer', {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${token || ''}`,
           'Content-Type': 'application/json',
         },
       });
-      
+
       if (res.ok) {
         const data = await res.json();
         setPayments(data);
@@ -40,7 +57,7 @@ export default function CustomerPayments() {
   };
 
   // Mock data for demo (replace with real API data)
-  const mockPayments = [
+  const mockPayments: CustomerPayment[] = [
     {
       id: '1',
       eventTitle: 'Wedding - Priya & Rahul',
@@ -56,14 +73,14 @@ export default function CustomerPayments() {
     },
   ];
 
-  const handlePayMilestone = async (milestone) => {
+  const handlePayMilestone = async (milestone: PaymentMilestone) => {
     const token = localStorage.getItem('token');
-    
+
     try {
       const res = await fetch('http://localhost:5000/api/payments/order', {
         method: 'POST',
-        headers: { 
-          'Authorization': `Bearer ${token}`,
+        headers: {
+          'Authorization': `Bearer ${token || ''}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -75,7 +92,7 @@ export default function CustomerPayments() {
       });
 
       const orderData = await res.json();
-      
+
       if (res.ok) {
         // Razorpay Checkout
         const options = {
@@ -85,7 +102,7 @@ export default function CustomerPayments() {
           name: 'UtSav Payments',
           order_id: orderData.orderId,
           description: milestone.title,
-          handler: async function (response) {
+          handler: async function (response: any) {
             // Verify payment
             await verifyPayment(response, orderData.paymentId);
           },
@@ -98,7 +115,7 @@ export default function CustomerPayments() {
           },
         };
 
-        const rzp = new window.Razorpay(options);
+        const rzp = new (window as any).Razorpay(options);
         rzp.open();
       }
     } catch (error) {
@@ -106,28 +123,32 @@ export default function CustomerPayments() {
     }
   };
 
-  const verifyPayment = async (response, paymentId) => {
+  const verifyPayment = async (response: any, paymentId: string) => {
     const token = localStorage.getItem('token');
-    
-    const res = await fetch('http://localhost:5000/api/payments/verify', {
-      method: 'POST',
-      headers: { 
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        razorpay_order_id: response.razorpay_order_id,
-        razorpay_payment_id: response.razorpay_payment_id,
-        razorpay_signature: response.razorpay_signature,
-        paymentId,
-      }),
-    });
 
-    if (res.ok) {
-      alert('Payment successful! 🎉');
-      fetchPayments(); // Refresh payments
-    } else {
-      alert('Payment verification failed');
+    try {
+      const res = await fetch('http://localhost:5000/api/payments/verify', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token || ''}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          paymentId,
+        }),
+      });
+
+      if (res.ok) {
+        alert('Payment successful! 🎉');
+        fetchPayments(); // Refresh payments
+      } else {
+        alert('Payment verification failed');
+      }
+    } catch (error) {
+      console.error('Verification failed:', error);
     }
   };
 
@@ -185,15 +206,15 @@ export default function CustomerPayments() {
                   {payment ? Math.round((payment.paidAmount / payment.totalBudget) * 100) : 0}%
                 </span>
               </div>
-              <Progress 
-                value={payment ? (payment.paidAmount / payment.totalBudget) * 100 : 0} 
+              <Progress
+                value={payment ? (payment.paidAmount / payment.totalBudget) * 100 : 0}
                 className="h-3"
               />
             </div>
 
             {/* Razorpay Script Load */}
             {!window.Razorpay && (
-              <script 
+              <script
                 src="https://checkout.razorpay.com/v1/checkout.js"
                 async
                 dangerouslySetInnerHTML={{ __html: '' }}
@@ -229,7 +250,7 @@ export default function CustomerPayments() {
                 </div>
 
                 {milestone.status === 'pending' ? (
-                  <Button 
+                  <Button
                     onClick={() => handlePayMilestone(milestone)}
                     className="w-full bg-gradient-to-r from-emerald to-saffron hover:from-emerald/90 text-white font-jakarta flex items-center gap-2"
                   >
@@ -237,11 +258,10 @@ export default function CustomerPayments() {
                     Pay Now with Razorpay
                   </Button>
                 ) : (
-                  <Badge className={`w-full justify-center py-3 text-lg font-jakarta ${
-                    milestone.status === 'paid' 
-                      ? 'bg-emerald text-white' 
+                  <Badge className={`w-full justify-center py-3 text-lg font-jakarta ${milestone.status === 'paid'
+                      ? 'bg-emerald text-white'
                       : 'bg-gray-500 text-white'
-                  }`}>
+                    }`}>
                     {milestone.status === 'paid' ? 'Paid ✅' : 'Pending'}
                   </Badge>
                 )}

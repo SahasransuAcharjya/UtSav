@@ -148,7 +148,7 @@ export function useNegotiationSocket(negotiationId?: string): UseNegotiationSock
   }, []);
 
   return {
-    socket: socketRef.current,
+    socket: socket,
     isConnected,
     messages,
     offers,
