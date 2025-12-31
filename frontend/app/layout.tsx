@@ -25,12 +25,10 @@ export default function RootLayout({
         'min-h-screen bg-background font-jakarta antialiased',
         inter.className
       )}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AuthProvider>  {/* ← WRAPPED WITH AUTH PROVIDER */}
-            <Navbar />
-            <main>{children}</main>
-          </AuthProvider>
-        </ThemeProvider>
+        <AuthProvider>  {/* ← WRAPPED WITH AUTH PROVIDER */}
+          <Navbar />
+          <main>{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );
