@@ -36,7 +36,8 @@ export default function CustomerOnboarding() {
         }),
       });
 
-      const data: { summary: string } = await res.json();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const data = await res.json() as { summary: string };
       setMessages(prev => [...prev, { role: 'ai', content: data.summary }]);
       setSummary(data.summary);
     } catch (error) {
