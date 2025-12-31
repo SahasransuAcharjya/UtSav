@@ -74,8 +74,8 @@ export function useNegotiationSocket(negotiationId?: string): UseNegotiationSock
 
     newSocket.on('negotiationLoaded', (data) => {
       console.log('📥 Negotiation loaded:', data);
-      setMessages(data.history?.filter((h: any) => !h.amount) || []);
-      setOffers(data.history?.filter((h: any) => h.amount) || []);
+      setMessages(data.history?.filter((h: NegotiationMessage | NegotiationOffer) => !('amount' in h)) as NegotiationMessage[] || []);
+      setOffers(data.history?.filter((h: NegotiationMessage | NegotiationOffer) => 'amount' in h) as NegotiationOffer[] || []);
       setCurrentOffer(data.currentOffer || 0);
     });
 
@@ -94,7 +94,7 @@ export function useNegotiationSocket(negotiationId?: string): UseNegotiationSock
       }]);
     });
 
-    newSocket.on('error', (error: any) => {
+    newSocket.on('error', (error: unknown) => {
       console.error('Socket error:', error);
     });
 
