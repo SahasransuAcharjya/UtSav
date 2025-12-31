@@ -16,14 +16,14 @@ export default function CustomerOnboarding() {
     },
   ]);
   const [input, setInput] = useState('');
-  const [summary, setSummary] = useState(null);
+  const [summary, setSummary] = useState<string | null>(null);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     // Add user message
     setMessages(prev => [...prev, { role: 'user', content: input }]);
-    
+
     // Call Gemini API
     try {
       const res = await fetch('http://localhost:5000/api/gemini/refine-event', {
@@ -35,14 +35,14 @@ export default function CustomerOnboarding() {
           location: 'Delhi',
         }),
       });
-      
+
       const data = await res.json();
       setMessages(prev => [...prev, { role: 'ai', content: data.summary }]);
       setSummary(data.summary);
     } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'ai', 
-        content: 'Sorry, AI assistant is temporarily unavailable. Please describe your event manually.' 
+      setMessages(prev => [...prev, {
+        role: 'ai',
+        content: 'Sorry, AI assistant is temporarily unavailable. Please describe your event manually.'
       }]);
     }
 
@@ -62,11 +62,10 @@ export default function CustomerOnboarding() {
                   className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md p-4 rounded-2xl ${
-                      msg.role === 'user'
+                    className={`max-w-xs lg:max-w-md p-4 rounded-2xl ${msg.role === 'user'
                         ? 'bg-gradient-to-r from-saffron to-gold text-white'
                         : 'bg-white/50 border border-saffron/30'
-                    }`}
+                      }`}
                   >
                     <p className="text-sm font-jakarta">{msg.content}</p>
                   </div>
@@ -96,7 +95,7 @@ export default function CustomerOnboarding() {
             <h2 className="text-2xl font-playfair text-velvet font-bold mb-6 flex items-center gap-2">
               <Users className="w-6 h-6" /> Event Summary
             </h2>
-            
+
             {summary ? (
               <div className="space-y-6">
                 <div className="glow-price bg-gradient-to-r from-emerald to-gold p-6 rounded-2xl shadow-lg text-center">
@@ -104,7 +103,7 @@ export default function CustomerOnboarding() {
                   <div className="text-4xl font-bold text-emerald mb-1">₹48,500</div>
                   <p className="text-sm text-emerald/90 font-jakarta">Suggested Budget</p>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div className="flex items-center gap-2 p-3 bg-white/50 rounded-xl">
                     <Calendar className="w-4 h-4 text-velvet" />
@@ -119,7 +118,7 @@ export default function CustomerOnboarding() {
                     <span>150 Guests • Wedding</span>
                   </div>
                 </div>
-                
+
                 <Button className="w-full bg-gradient-to-r from-saffron to-gold hover:from-saffron/90">
                   Post Event for Vendors
                 </Button>

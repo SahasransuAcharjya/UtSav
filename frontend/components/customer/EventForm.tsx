@@ -10,7 +10,18 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, Users, MapPin, DollarSign, Send, Sparkles } from 'lucide-react';
 import BargainSlider from './BargainSlider';
 
-export default function EventForm({ onSubmit }: { onSubmit?: (data: any) => void }) {
+interface EventFormData {
+  title: string;
+  description: string;
+  eventType: string;
+  date: string;
+  location: string;
+  guestCount: string;
+  budgetMin: number;
+  budgetMax: number;
+}
+
+export default function EventForm({ onSubmit }: { onSubmit?: (data: EventFormData) => void }) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -105,7 +116,7 @@ export default function EventForm({ onSubmit }: { onSubmit?: (data: any) => void
                 <Users className="w-4 h-4 text-saffron" />
                 Event Type
               </label>
-              <Select name="eventType" onValueChange={(value) => setFormData({ ...formData, eventType: value })}>
+              <Select name="eventType" onValueChange={(value: string) => setFormData({ ...formData, eventType: value })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select event type" />
                 </SelectTrigger>
@@ -211,8 +222,8 @@ export default function EventForm({ onSubmit }: { onSubmit?: (data: any) => void
           />
 
           {/* Submit */}
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white font-jakarta text-lg py-8 h-16"
             disabled={loading}
           >
