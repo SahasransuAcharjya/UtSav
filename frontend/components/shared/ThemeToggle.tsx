@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import { Sun, Moon } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export default function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -39,7 +40,7 @@ export default function ThemeToggle() {
               : 'opacity-100 scale-100 rotate-0 translate-y-0 text-gold shadow-lg drop-shadow-lg'
           )}
         />
-        
+
         {/* Moon */}
         <Moon
           className={cn(
