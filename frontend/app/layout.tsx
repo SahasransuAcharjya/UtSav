@@ -1,7 +1,7 @@
 // frontend/app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import { AuthProvider } from '@/hooks/useAuth';  // ← NEW
 import Navbar from '@/components/shared/Navbar';
 import './globals.css';
@@ -25,10 +25,17 @@ export default function RootLayout({
         'min-h-screen bg-background font-jakarta antialiased',
         inter.className
       )}>
-        <AuthProvider>  {/* ← WRAPPED WITH AUTH PROVIDER */}
-          <Navbar />
-          <main>{children}</main>
-        </AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>  {/* ← WRAPPED WITH AUTH PROVIDER */}
+            <Navbar />
+            <main>{children}</main>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -53,15 +53,15 @@ export default function VendorDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl to-white p-8">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6">
           <div>
-            <h1 className="text-4xl font-playfair text-velvet font-bold mb-2">
+            <h1 className="text-4xl font-playfair text-velvet dark:text-white font-bold mb-2">
               New Requisitions
             </h1>
-            <p className="text-xl text-gray-600 font-jakarta">
+            <p className="text-xl text-gray-600 dark:text-gray-400 font-jakarta">
               {filteredEvents.length} events waiting for your bid
             </p>
           </div>
@@ -82,7 +82,7 @@ export default function VendorDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {loading ? (
             Array(6).fill(0).map((_, i) => (
-              <Card key={i} className="backdrop-blur-xl bg-white/70 border-0 shadow-xl animate-pulse">
+              <Card key={i} className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl animate-pulse dark:border-white/10">
                 <CardContent className="p-8">
                   <div className="h-4 bg-gray-300 rounded w-24 mb-4"></div>
                   <div className="h-6 bg-gray-300 rounded w-3/4 mb-6"></div>
@@ -94,14 +94,14 @@ export default function VendorDashboard() {
               </Card>
             ))
           ) : filteredEvents.length === 0 ? (
-            <Card className="backdrop-blur-xl bg-white/70 border-0 shadow-2xl col-span-full text-center py-20">
+            <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl col-span-full text-center py-20 dark:border-white/10">
               <Clock className="w-20 h-20 text-gray-400 mx-auto mb-6" />
-              <h3 className="text-2xl font-playfair text-velvet mb-2">No events available</h3>
-              <p className="text-gray-600 mb-8 font-jakarta">Try adjusting your filters or check back later.</p>
+              <h3 className="text-2xl font-playfair text-velvet dark:text-white mb-2">No events available</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-8 font-jakarta">Try adjusting your filters or check back later.</p>
             </Card>
           ) : (
             filteredEvents.map((event) => (
-              <Card key={event._id} className="backdrop-blur-xl bg-white/70 border-0 shadow-xl hover:shadow-2xl transition-all group">
+              <Card key={event._id} className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl hover:shadow-2xl transition-all group dark:border-white/10 dark:hover:border-saffron/50">
                 <CardContent className="p-8">
                   <div className="flex justify-between items-start mb-4">
                     {getUrgencyBadge(event.createdAt)}
@@ -110,21 +110,21 @@ export default function VendorDashboard() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-playfair text-velvet font-bold mb-4 group-hover:text-saffron transition-colors">
+                  <h3 className="text-xl font-playfair text-velvet dark:text-white font-bold mb-4 group-hover:text-saffron transition-colors">
                     {event.title}
                   </h3>
 
                   <div className="space-y-3 mb-6 text-sm">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-velvet" />
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                      <Calendar className="w-4 h-4 text-velvet dark:text-white" />
                       {new Date(event.date).toLocaleDateString('en-IN')}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-velvet" />
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                      <Users className="w-4 h-4 text-velvet dark:text-white" />
                       {event.guestCount} guests • {event.eventType}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin className="w-4 h-4 text-velvet" />
+                    <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                      <MapPin className="w-4 h-4 text-velvet dark:text-white" />
                       {event.location}
                     </div>
                   </div>

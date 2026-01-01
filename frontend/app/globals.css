@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-pearl: #F8FAFC;
@@ -80,180 +81,16 @@
     --popover-foreground: 222.2 84% 4.9%;
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-  }
 
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 213 31% 91%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 222.2 84% 4.9%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 222.2 84% 4.9%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 222.2 84% 4.9%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
-}
+    /* UtSav Button Overrides */
+    .btn-primary {
+      @apply bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-jakarta;
+    }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+    .btn-secondary {
+      @apply bg-gradient-to-r from-velvet to-emerald hover:from-velvet/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-jakarta;
+    }
 
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* UtSav Custom Utilities */
-@layer utilities {
-
-  /* Glow Price Animation */
-  .glow-price {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-
-  /* Glassmorphism */
-  .glass {
-    @apply backdrop-blur-xl bg-white/70 dark:bg-black/70 border border-white/20 dark:border-black/20;
-  }
-
-  /* Gradient Text */
-  .gradient-text {
-    @apply bg-gradient-to-r from-saffron via-gold to-emerald bg-clip-text text-transparent;
-  }
-
-  /* Hover Glow */
-  .hover-glow {
-    @apply relative;
-  }
-
-  .hover-glow::before {
-    content: '';
-    @apply absolute inset-0 rounded-2xl opacity-0 bg-gradient-to-r from-saffron/20 to-emerald/20 blur-xl transition-opacity duration-300 group-hover:opacity-100;
-  }
-
-  /* Card Hover Lift */
-  .card-hover {
-    @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:border-saffron/40;
-  }
-}
-
-/* Keyframe Animations */
-@keyframes glow {
-  from {
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-  }
-
-  to {
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6), 0 0 40px rgba(254, 153, 51, 0.3);
-  }
-}
-
-@keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes bounce-glow {
-
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-  }
-
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-  }
-}
-
-/* Custom Scrollbars */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-900 rounded-full;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-saffron/50 hover:bg-saffron rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-saffron;
-}
-
-/* Responsive Typography */
-@layer components {
-  .font-jakarta {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  }
-
-  .font-playfair {
-    font-family: 'Playfair Display', serif;
-  }
-}
-
-/* Dark Mode UtSav Colors Override */
-.dark .bg-pearl {
-  @apply bg-gray-900/50;
-}
-
-.dark .text-pearl {
-  @apply text-gray-300;
-}
-
-.dark .border-pearl {
-  @apply border-gray-700;
-}
-
-/* Loading Skeleton */
-.skeleton {
-  @apply bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl;
-}
-
-/* UtSav Button Overrides */
-.btn-primary {
-  @apply bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-jakarta;
-}
-
-.btn-secondary {
-  @apply bg-gradient-to-r from-velvet to-emerald hover:from-velvet/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 font-jakarta;
-}
-
-.btn-outline-custom {
-  @apply border-2 border-saffron/50 hover:border-saffron hover:bg-saffron/10 text-saffron font-jakarta transition-all duration-300;
-}
+    .btn-outline-custom {
+      @apply border-2 border-saffron/50 hover:border-saffron hover:bg-saffron/10 text-saffron font-jakarta transition-all duration-300;
+    }

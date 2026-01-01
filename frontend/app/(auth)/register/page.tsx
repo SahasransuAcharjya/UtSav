@@ -35,13 +35,13 @@ export default function RegisterPage() {
       });
 
       const result = await res.json();
-      
+
       if (res.ok) {
         // Store token and redirect
         localStorage.setItem('token', result.token);
         // Redirect based on role
-        window.location.href = role === 'customer' 
-          ? '/customer/onboarding' 
+        window.location.href = role === 'customer'
+          ? '/customer/onboarding'
           : '/vendor/dashboard';
       } else {
         alert(result.message || 'Registration failed');
@@ -54,16 +54,16 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl to-white flex items-center justify-center p-8">
-      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 border-0 shadow-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 flex items-center justify-center p-8">
+      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl dark:border-white/10">
         <CardHeader className="text-center">
           <div className="w-20 h-20 bg-gradient-to-r from-saffron to-gold rounded-2xl mx-auto mb-6 flex items-center justify-center">
             <Users className="w-10 h-10 text-white" />
           </div>
-          <CardTitle className="text-3xl font-playfair text-velvet">
+          <CardTitle className="text-3xl font-playfair text-velvet dark:text-white">
             Join UtSav
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-gray-600 dark:text-gray-400">
             Create your account to get started
           </CardDescription>
         </CardHeader>
@@ -71,12 +71,12 @@ export default function RegisterPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Role Selector */}
             <div>
-              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2">
-                {role === 'customer' ? <User className="w-4 h-4" /> : <Briefcase className="w-4 h-4" />}
+              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                {role === 'customer' ? <User className="w-4 h-4 text-saffron" /> : <Briefcase className="w-4 h-4 text-saffron" />}
                 Account Type
               </Label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger className="font-jakarta">
+                <SelectTrigger className="font-jakarta h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -98,42 +98,42 @@ export default function RegisterPage() {
 
             {/* Name */}
             <div>
-              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2">
-                <Users className="w-4 h-4" />
+              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Users className="w-4 h-4 text-saffron" />
                 Full Name
               </Label>
-              <Input name="name" required placeholder="John Doe" />
+              <Input name="name" required placeholder="John Doe" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Email */}
             <div>
-              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2">
-                <Mail className="w-4 h-4" />
+              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Mail className="w-4 h-4 text-saffron" />
                 Email
               </Label>
-              <Input name="email" type="email" required placeholder="john@example.com" />
+              <Input name="email" type="email" required placeholder="john@example.com" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Phone (optional) */}
             <div>
-              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2">
-                <Phone className="w-4 h-4" />
+              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Phone className="w-4 h-4 text-saffron" />
                 Phone
               </Label>
-              <Input name="phone" type="tel" placeholder="+91 98765 43210" />
+              <Input name="phone" type="tel" placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Password */}
             <div>
-              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2">
-                <Lock className="w-4 h-4" />
+              <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <Lock className="w-4 h-4 text-saffron" />
                 Password
               </Label>
-              <Input name="password" type="password" required minLength={6} placeholder="••••••••" />
+              <Input name="password" type="password" required minLength={6} placeholder="••••••••" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white font-jakarta"
               disabled={isLoading}
             >
@@ -141,8 +141,8 @@ export default function RegisterPage() {
             </Button>
           </form>
 
-          <div className="text-center text-sm pt-4 border-t">
-            <span className="text-gray-600">Already have an account? </span>
+          <div className="text-center text-sm pt-4 border-t border-gray-200 dark:border-white/10">
+            <span className="text-gray-600 dark:text-gray-400">Already have an account? </span>
             <Link href="/login" className="text-saffron hover:text-saffron/80 font-medium">
               Sign in
             </Link>

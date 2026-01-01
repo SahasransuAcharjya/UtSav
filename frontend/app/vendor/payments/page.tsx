@@ -83,14 +83,14 @@ export default function VendorPayments() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl to-white p-8">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between mb-12">
           <div>
-            <h1 className="text-4xl font-playfair text-velvet font-bold mb-2">
+            <h1 className="text-4xl font-playfair text-velvet dark:text-white font-bold mb-2">
               Payments & Milestones
             </h1>
-            <p className="text-xl text-gray-600 font-jakarta">
+            <p className="text-xl text-gray-600 dark:text-gray-400 font-jakarta">
               Track advance, resources, and final payments
             </p>
           </div>
@@ -101,21 +101,21 @@ export default function VendorPayments() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Payments */}
-          <Card className="backdrop-blur-xl bg-white/70 border-0 shadow-xl">
+          <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl dark:border-white/10">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-velvet">
+              <CardTitle className="flex items-center gap-2 text-velvet dark:text-white">
                 <DollarSign className="w-6 h-6" />
                 Recent Payments
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {mockPayments.slice(0, 3).map((payment) => (
-                <div key={payment.id} className="flex items-center justify-between p-4 bg-white/50 rounded-xl">
+                <div key={payment.id} className="flex items-center justify-between p-4 bg-white/50 dark:bg-white/10 rounded-xl">
                   <div className="flex items-center gap-4">
                     {getStatusIcon(payment.status)}
                     <div>
-                      <div className="font-semibold text-velvet">{payment.milestone}</div>
-                      <div className="text-sm text-gray-600">{payment.event}</div>
+                      <div className="font-semibold text-velvet dark:text-white">{payment.milestone}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">{payment.event}</div>
                     </div>
                   </div>
                   <div className="text-right">
@@ -130,19 +130,19 @@ export default function VendorPayments() {
           </Card>
 
           {/* Payment Stats */}
-          <Card className="backdrop-blur-xl bg-white/70 border-0 shadow-xl">
+          <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl dark:border-white/10">
             <CardHeader>
-              <CardTitle className="text-velvet">Payment Summary</CardTitle>
+              <CardTitle className="text-velvet dark:text-white">Payment Summary</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid grid-cols-2 gap-6 text-center">
                 <div>
                   <div className="text-3xl font-bold text-emerald mb-1">₹85,000</div>
-                  <p className="text-sm text-gray-600 font-jakarta">Total Received</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-jakarta">Total Received</p>
                 </div>
                 <div>
                   <div className="text-3xl font-bold text-saffron mb-1">₹15,000</div>
-                  <p className="text-sm text-gray-600 font-jakarta">Pending</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-jakarta">Pending</p>
                 </div>
               </div>
               <Button className="w-full bg-gradient-to-r from-emerald to-saffron hover:from-emerald/90 text-white font-jakarta">

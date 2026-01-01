@@ -28,7 +28,7 @@ export default function LoginPage() {
     try {
       const loginData: LoginRequest = { email, password };
       const response = await apiClient.post<{ token: string; user: any }>('/auth/login', loginData);
-      
+
       login(response.token);
       router.push('/customer/dashboard');
     } catch (err: any) {
@@ -39,13 +39,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl to-white flex items-center justify-center p-8">
-      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 border-0 shadow-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 flex items-center justify-center p-8">
+      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl dark:border-white/10">
         <CardHeader className="text-center">
-          <CardTitle className="text-4xl font-playfair font-bold text-velvet mb-2">
+          <CardTitle className="text-4xl font-playfair font-bold text-velvet dark:text-white mb-2">
             Welcome Back
           </CardTitle>
-          <p className="text-gray-600 font-jakarta">Sign in to your UtSav account</p>
+          <p className="text-gray-600 dark:text-gray-400 font-jakarta">Sign in to your UtSav account</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {error && (
@@ -53,10 +53,10 @@ export default function LoginPage() {
               {error}
             </div>
           )}
-          
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <Mail className="w-4 h-4 text-saffron" />
                 Email
               </label>
@@ -65,13 +65,13 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="h-12 rounded-2xl"
+                className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <Lock className="w-4 h-4 text-saffron" />
                 Password
               </label>
@@ -80,13 +80,13 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="h-12 rounded-2xl"
+                className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
                 required
               />
             </div>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full h-14 bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white font-bold text-lg rounded-2xl shadow-xl"
               disabled={loading}
             >
@@ -102,7 +102,7 @@ export default function LoginPage() {
           </form>
 
           <div className="text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{' '}
               <Link href="/register" className="font-semibold text-saffron hover:text-gold transition-colors">
                 Sign up here
