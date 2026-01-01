@@ -21,10 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(
-        'min-h-screen bg-background font-jakarta antialiased',
-        inter.className
-      )}>
+      <body
+        suppressHydrationWarning
+        className={cn(
+          'min-h-screen bg-background font-jakarta antialiased',
+          inter.className
+        )}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

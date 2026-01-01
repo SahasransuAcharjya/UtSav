@@ -7,14 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, User, Briefcase, Mail, Phone, Lock } from 'lucide-react';
+import { Users, User, Store, Mail, Phone, Lock } from 'lucide-react';
 
 export default function RegisterPage() {
   const [role, setRole] = useState('customer');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -72,28 +71,44 @@ export default function RegisterPage() {
             {/* Role Selector */}
             <div>
               <Label className="text-sm font-jakarta font-medium mb-2 flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                {role === 'customer' ? <User className="w-4 h-4 text-saffron" /> : <Briefcase className="w-4 h-4 text-saffron" />}
+                {role === 'customer' ? <User className="w-4 h-4 text-saffron" /> : <Store className="w-4 h-4 text-saffron" />}
                 Account Type
               </Label>
-              <Select value={role} onValueChange={setRole}>
-                <SelectTrigger className="font-jakarta h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="customer">
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      Customer (Event Organizer)
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="vendor">
-                    <div className="flex items-center gap-2">
-                      <Briefcase className="w-4 h-4" />
-                      Vendor (Event Manager)
-                    </div>
-                  </SelectItem>
-                </SelectContent>
-              </Select>
+              <div className="grid grid-cols-2 gap-4">
+                <div
+                  onClick={() => setRole('customer')}
+                  className={`cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center gap-3 ${role === 'customer'
+                    ? 'bg-saffron/10 border-saffron'
+                    : 'bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 hover:border-saffron/50'
+                    }`}
+                >
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${role === 'customer' ? 'bg-saffron text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'
+                    }`}>
+                    <User className="w-6 h-6" />
+                  </div>
+                  <div className="text-center">
+                    <div className={`font-bold ${role === 'customer' ? 'text-saffron' : 'text-gray-700 dark:text-gray-300'}`}>Customer</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Event Organizer</div>
+                  </div>
+                </div>
+
+                <div
+                  onClick={() => setRole('vendor')}
+                  className={`cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center gap-3 ${role === 'vendor'
+                    ? 'bg-saffron/10 border-saffron'
+                    : 'bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 hover:border-saffron/50'
+                    }`}
+                >
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${role === 'vendor' ? 'bg-saffron text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'
+                    }`}>
+                    <Store className="w-6 h-6" />
+                  </div>
+                  <div className="text-center">
+                    <div className={`font-bold ${role === 'vendor' ? 'text-saffron' : 'text-gray-700 dark:text-gray-300'}`}>Vendor</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Event Manager</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Name */}
