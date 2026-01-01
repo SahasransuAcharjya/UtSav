@@ -8,13 +8,14 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
-import { Loader2, Mail, Lock } from 'lucide-react';
+import { Loader2, Mail, Lock, User, Store } from 'lucide-react';
 import { LoginRequest } from '@/types/user';
 import { apiClient } from '@/lib/api';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('customer'); // Default role
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login } = useAuth();
@@ -27,10 +28,18 @@ export default function LoginPage() {
 
     try {
       const loginData: LoginRequest = { email, password };
+      // Note: We might want to send role to backend if it supports it, 
+      // but for now we use it for redirection as requested.
       const response = await apiClient.post<{ token: string; user: any }>('/auth/login', loginData);
 
       login(response.token);
-      router.push('/customer/dashboard');
+
+      // Redirect based on selected role
+      if (role === 'customer') {
+        router.push('/customer/dashboard');
+      } else {
+        router.push('/vendor/dashboard');
+      }
     } catch (err: any) {
       setError(err.message || 'Login failed');
     } finally {
@@ -55,6 +64,41 @@ export default function LoginPage() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Role Selection */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div
+                onClick={() => setRole('customer')}
+                className={`cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center gap-3 ${role === 'customer'
+                  ? 'bg-saffron/10 border-saffron'
+                  : 'bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 hover:border-saffron/50'
+                  }`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${role === 'customer' ? 'bg-saffron text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'
+                  }`}>
+                  <User className="w-5 h-5" />
+                </div>
+                <div className="text-center">
+                  <div className={`font-bold text-sm ${role === 'customer' ? 'text-saffron' : 'text-gray-700 dark:text-gray-300'}`}>Customer</div>
+                </div>
+              </div>
+
+              <div
+                onClick={() => setRole('vendor')}
+                className={`cursor-pointer p-4 rounded-2xl border-2 transition-all duration-300 flex flex-col items-center gap-3 ${role === 'vendor'
+                  ? 'bg-saffron/10 border-saffron'
+                  : 'bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 hover:border-saffron/50'
+                  }`}
+              >
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${role === 'vendor' ? 'bg-saffron text-white' : 'bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400'
+                  }`}>
+                  <Store className="w-5 h-5" />
+                </div>
+                <div className="text-center">
+                  <div className={`font-bold text-sm ${role === 'vendor' ? 'text-saffron' : 'text-gray-700 dark:text-gray-300'}`}>Vendor</div>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <Mail className="w-4 h-4 text-saffron" />

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, User, LogOut, Sparkles } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '@/hooks/useAuth';  // ✅ NEW HOOK
 import { cn } from '@/lib/utils';
@@ -58,25 +57,25 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-saffron dark:hover:text-gold font-medium transition-all duration-200 hover:underline underline-offset-4"
             >
               Home
             </Link>
-            
+
             {isAuthenticated && user ? (
               <>
                 {userRole === 'customer' && (
                   <>
-                    <Link 
-                      href="/customer/dashboard" 
+                    <Link
+                      href="/customer/dashboard"
                       className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-emerald dark:hover:text-emerald font-medium transition-all duration-200 hover:underline underline-offset-4"
                     >
                       Dashboard
                     </Link>
-                    <Link 
-                      href="/customer/onboarding" 
+                    <Link
+                      href="/customer/onboarding"
                       className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-saffron dark:hover:text-gold font-medium transition-all duration-200 hover:underline underline-offset-4"
                     >
                       New Event
@@ -85,14 +84,14 @@ export default function Navbar() {
                 )}
                 {userRole === 'vendor' && (
                   <>
-                    <Link 
-                      href="/vendor/dashboard" 
+                    <Link
+                      href="/vendor/dashboard"
                       className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-saffron dark:hover:text-gold font-medium transition-all duration-200 hover:underline underline-offset-4"
                     >
                       Requisitions
                     </Link>
-                    <Link 
-                      href="/vendor/payments" 
+                    <Link
+                      href="/vendor/payments"
                       className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-emerald dark:hover:text-emerald font-medium transition-all duration-200 hover:underline underline-offset-4"
                     >
                       Payments
@@ -102,14 +101,14 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link 
-                  href="/register" 
+                <Link
+                  href="/register"
                   className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-emerald dark:hover:text-emerald font-medium transition-all duration-200 hover:underline underline-offset-4"
                 >
                   For Customers
                 </Link>
-                <Link 
-                  href="/register" 
+                <Link
+                  href="/register"
                   className="font-jakarta text-lg text-gray-700 dark:text-gray-300 hover:text-saffron dark:hover:text-gold font-medium transition-all duration-200 hover:underline underline-offset-4"
                 >
                   For Vendors
@@ -126,17 +125,6 @@ export default function Navbar() {
             {isAuthenticated && user ? (
               <>
                 {/* User Role Badge */}
-                <Badge 
-                  className={cn(
-                    'font-jakarta font-semibold px-4 py-2 shadow-md',
-                    userRole === 'customer' 
-                      ? 'bg-gradient-to-r from-emerald/90 to-saffron/90 text-white border-emerald/50 dark:from-emerald dark:to-saffron' 
-                      : 'bg-gradient-to-r from-velvet/90 to-saffron/90 text-white border-velvet/50 dark:from-velvet dark:to-saffron'
-                  )}
-                >
-                  {userRole === 'customer' ? '👤 Customer' : '💼 Vendor'}
-                </Badge>
-
                 {/* Profile Avatar */}
                 <div className="flex items-center gap-2 p-2 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 cursor-pointer group border border-transparent hover:border-saffron/30">
                   <div className="w-9 h-9 bg-gradient-to-br from-gray-200 dark:from-gray-700 to-gray-300 rounded-full flex items-center justify-center overflow-hidden group-hover:bg-gradient-to-br group-hover:from-saffron group-hover:to-gold transition-all duration-300">
@@ -148,9 +136,9 @@ export default function Navbar() {
                 </div>
 
                 {/* Logout */}
-                <Button 
+                <Button
                   onClick={handleLogout}
-                  variant="ghost" 
+                  variant="ghost"
                   size="sm"
                   className="flex items-center gap-2 font-jakarta hover:bg-red-50 dark:hover:bg-red-950/50 hover:text-red-600 dark:hover:text-red-400 border border-gray-200 dark:border-gray-700 font-medium px-4 py-2 rounded-xl transition-all duration-200 hover:shadow-md"
                 >
@@ -161,8 +149,8 @@ export default function Navbar() {
             ) : (
               <>
                 <Link href="/login">
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     className="font-jakarta border-2 border-velvet/30 dark:border-velvet/50 hover:bg-velvet hover:text-white hover:border-velvet font-medium px-6 py-2 rounded-xl shadow-sm transition-all duration-300"
                   >
@@ -170,7 +158,7 @@ export default function Navbar() {
                   </Button>
                 </Link>
                 <Link href="/register">
-                  <Button 
+                  <Button
                     size="sm"
                     className="bg-gradient-to-r from-saffron to-gold hover:from-saffron/90 text-white font-jakarta font-semibold px-6 py-2 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                   >
@@ -183,17 +171,17 @@ export default function Navbar() {
             {/* Mobile Menu */}
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
+                <Button
+                  variant="ghost"
+                  size="icon"
                   className="md:hidden w-11 h-11 p-0 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 border border-transparent hover:border-saffron/30 transition-all duration-200 shadow-sm"
                 >
                   <Menu className="w-6 h-6" />
                   <span className="sr-only">Toggle menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent 
-                side="right" 
+              <SheetContent
+                side="right"
                 className="w-80 p-0 border-l-saffron/20 dark:border-gold/30 bg-white/95 dark:bg-black/95 backdrop-blur-xl font-jakarta"
               >
                 {/* Mobile Header */}
@@ -209,8 +197,8 @@ export default function Navbar() {
 
                 {/* Mobile Navigation */}
                 <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
-                  <Link 
-                    href="/" 
+                  <Link
+                    href="/"
                     className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 transition-all duration-200 text-lg font-medium border-l-4 border-transparent hover:border-saffron"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
@@ -221,15 +209,15 @@ export default function Navbar() {
                     <>
                       {userRole === 'customer' && (
                         <>
-                          <Link 
-                            href="/customer/dashboard" 
+                          <Link
+                            href="/customer/dashboard"
                             className="flex items-center gap-3 py-4 px-4 bg-emerald/10 dark:bg-emerald/20 border-l-4 border-emerald rounded-2xl font-semibold text-emerald transition-all duration-200 text-lg"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             📊 Dashboard
                           </Link>
-                          <Link 
-                            href="/customer/onboarding" 
+                          <Link
+                            href="/customer/onboarding"
                             className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-saffron/10 dark:hover:bg-saffron/20 border-l-4 border-transparent hover:border-saffron transition-all duration-200 text-lg font-medium"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
@@ -239,15 +227,15 @@ export default function Navbar() {
                       )}
                       {userRole === 'vendor' && (
                         <>
-                          <Link 
-                            href="/vendor/dashboard" 
+                          <Link
+                            href="/vendor/dashboard"
                             className="flex items-center gap-3 py-4 px-4 bg-saffron/10 dark:bg-saffron/20 border-l-4 border-saffron rounded-2xl font-semibold text-saffron transition-all duration-200 text-lg"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
                             📋 Requisitions
                           </Link>
-                          <Link 
-                            href="/vendor/payments" 
+                          <Link
+                            href="/vendor/payments"
                             className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-emerald/10 dark:hover:bg-emerald/20 border-l-4 border-transparent hover:border-emerald transition-all duration-200 text-lg font-medium"
                             onClick={() => setIsMobileMenuOpen(false)}
                           >
@@ -255,8 +243,8 @@ export default function Navbar() {
                           </Link>
                         </>
                       )}
-                      
-                      <Button 
+
+                      <Button
                         onClick={handleLogout}
                         className="w-full mt-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-4 px-6 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-0"
                       >
@@ -266,15 +254,15 @@ export default function Navbar() {
                     </>
                   ) : (
                     <>
-                      <Link 
-                        href="/login" 
+                      <Link
+                        href="/login"
                         className="flex items-center gap-3 py-4 px-4 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-800 border-l-4 border-transparent hover:border-blue-500 transition-all duration-200 text-lg font-medium"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         🔑 Sign In
                       </Link>
-                      <Link 
-                        href="/register" 
+                      <Link
+                        href="/register"
                         className="flex items-center gap-3 py-4 px-4 bg-gradient-to-r from-saffron to-gold text-white rounded-2xl font-semibold shadow-lg hover:shadow-xl border-l-4 border-saffron transition-all duration-300 text-lg"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >

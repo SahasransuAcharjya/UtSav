@@ -6,6 +6,6 @@ import { auth } from '../middleware/auth.js';
 const router = express.Router();
 
 // Customer: AI chat refinement (can use without auth for demo)
-router.post('/refine-event', auth, refineEventDetails);
+router.post('/refine-event', refineEventDetails);
 
 export default router;
