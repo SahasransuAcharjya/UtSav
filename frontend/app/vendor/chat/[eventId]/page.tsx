@@ -13,11 +13,11 @@ import io from 'socket.io-client';
 export default function VendorChat() {
   const params = useParams();
   const eventId = params.eventId;
-  const [socket, setSocket] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const [socket, setSocket] = useState<any>(null);
+  const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState('');
   const [currentOffer, setCurrentOffer] = useState(0);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -79,10 +79,10 @@ export default function VendorChat() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-black dark:via-neutral-950 dark:to-black transition-colors duration-300 p-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl mb-8 dark:border-white/10">
+        <Card className="backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-2xl mb-8 dark:border-white/10">
           <CardContent className="p-8">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
@@ -103,7 +103,7 @@ export default function VendorChat() {
         </Card>
 
         {/* Messages */}
-        <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl h-[500px] flex flex-col dark:border-white/10">
+        <Card className="backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-2xl h-[500px] flex flex-col dark:border-white/10">
           <CardContent className="p-0 flex-1 flex flex-col overflow-hidden">
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {messages.map((msg, idx) => (
@@ -113,8 +113,8 @@ export default function VendorChat() {
                 >
                   <div
                     className={`max-w-md p-4 rounded-2xl ${msg.by === 'vendor'
-                        ? 'bg-gradient-to-r from-saffron to-gold text-white'
-                        : 'bg-white/50 dark:bg-white/10 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200'
+                      ? 'bg-gradient-to-r from-saffron to-gold text-white'
+                      : 'bg-white/50 dark:bg-neutral-900/50 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200'
                       }`}
                   >
                     <div className="font-bold text-sm mb-1 capitalize">{msg.by}</div>
@@ -132,7 +132,7 @@ export default function VendorChat() {
             </div>
 
             {/* Input */}
-            <div className="border-t p-6 bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10">
+            <div className="border-t p-6 bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10">
               <div className="flex gap-3">
                 <Input
                   value={input}
@@ -145,7 +145,7 @@ export default function VendorChat() {
                     }
                   }}
                   placeholder="Enter offer amount (₹) or type message..."
-                  className="flex-1 bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10"
+                  className="flex-1 bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10"
                 />
                 <Button
                   onClick={() => {
@@ -164,8 +164,8 @@ export default function VendorChat() {
               </div>
             </div>
           </CardContent>
-        </Card>
-      </div>
-    </div>
+        </Card >
+      </div >
+    </div >
   );
 }

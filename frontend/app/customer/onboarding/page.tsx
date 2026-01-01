@@ -51,10 +51,10 @@ export default function CustomerOnboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 p-8">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-black dark:via-neutral-950 dark:to-black transition-colors duration-300 p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Gemini Chat */}
-        <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl h-[700px] flex flex-col dark:border-white/10">
+        <Card className="backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-2xl h-[700px] flex flex-col dark:border-white/10">
           <CardContent className="p-8 pt-6 flex-1 flex flex-col">
             <div className="flex-1 overflow-y-auto space-y-4 mb-6">
               {messages.map((msg, idx) => (
@@ -65,7 +65,7 @@ export default function CustomerOnboarding() {
                   <div
                     className={`max-w-xs lg:max-w-md p-4 rounded-2xl ${msg.role === 'user'
                       ? 'bg-gradient-to-r from-saffron to-gold text-white'
-                      : 'bg-white/50 dark:bg-white/10 border border-saffron/30 dark:border-white/10 text-gray-800 dark:text-gray-200'
+                      : 'bg-white/50 dark:bg-neutral-900/50 border border-saffron/30 dark:border-white/10 text-gray-800 dark:text-gray-200'
                       }`}
                   >
                     <p className="text-sm font-jakarta">{msg.content}</p>
@@ -80,7 +80,7 @@ export default function CustomerOnboarding() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                   placeholder="Describe your event..."
-                  className="flex-1 bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10"
+                  className="flex-1 bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10"
                 />
                 <Button onClick={sendMessage} size="icon" className="bg-saffron hover:bg-saffron/90">
                   <Send className="w-4 h-4" />
@@ -91,7 +91,7 @@ export default function CustomerOnboarding() {
         </Card>
 
         {/* Live Summary Card */}
-        <Card className="backdrop-blur-xl bg-gradient-to-b from-white/80 to-pearl/70 dark:from-white/5 dark:to-white/5 border-0 shadow-2xl dark:border-white/10">
+        <Card className="backdrop-blur-xl bg-gradient-to-b from-white/80 to-pearl/70 dark:from-neutral-950/80 dark:to-neutral-950/70 border-0 shadow-2xl dark:border-white/10">
           <CardContent className="p-8">
             <h2 className="text-2xl font-playfair text-velvet dark:text-white font-bold mb-6 flex items-center gap-2">
               <Users className="w-6 h-6" /> Event Summary
@@ -106,15 +106,15 @@ export default function CustomerOnboarding() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-white/10 rounded-xl text-gray-700 dark:text-gray-300">
+                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-neutral-900/50 rounded-xl text-gray-700 dark:text-gray-300">
                     <Calendar className="w-4 h-4 text-velvet dark:text-white" />
                     <span>Dec 15, 2025</span>
                   </div>
-                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-white/10 rounded-xl text-gray-700 dark:text-gray-300">
+                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-neutral-900/50 rounded-xl text-gray-700 dark:text-gray-300">
                     <MapPin className="w-4 h-4 text-velvet dark:text-white" />
                     <span>Delhi</span>
                   </div>
-                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-white/10 rounded-xl col-span-2 text-gray-700 dark:text-gray-300">
+                  <div className="flex items-center gap-2 p-3 bg-white/50 dark:bg-neutral-900/50 rounded-xl col-span-2 text-gray-700 dark:text-gray-300">
                     <Users className="w-4 h-4 text-velvet dark:text-white" />
                     <span>150 Guests • Wedding</span>
                   </div>

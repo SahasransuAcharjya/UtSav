@@ -33,7 +33,7 @@ export default function CustomerDashboard() {
 
   return (
     <ProtectedRoute allowedRoles={['customer']}>
-      <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 p-8">
+      <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-black dark:via-neutral-950 dark:to-black transition-colors duration-300 p-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-12 gap-6">
@@ -54,7 +54,7 @@ export default function CustomerDashboard() {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-            <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl dark:border-white/10">
+            <Card className="backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-xl dark:border-white/10">
               <CardContent className="p-8 text-center">
                 <div className="text-4xl font-bold text-emerald mb-2">{events.length}</div>
                 <p className="text-gray-600 dark:text-gray-400 font-jakarta">Active Events</p>
@@ -68,7 +68,7 @@ export default function CustomerDashboard() {
             {loading ? (
               <div>Loading...</div>
             ) : events.length === 0 ? (
-              <Card className="backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-xl p-12 text-center dark:border-white/10">
+              <Card className="backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-xl p-12 text-center dark:border-white/10">
                 <CardContent>
                   <p className="text-2xl text-gray-500 dark:text-gray-400 font-jakarta">No events yet</p>
                   <Button asChild className="mt-6 bg-gradient-to-r from-saffron to-gold">

@@ -39,8 +39,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 flex items-center justify-center p-8">
-      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl dark:border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-black dark:via-neutral-950 dark:to-black transition-colors duration-300 flex items-center justify-center p-8">
+      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-2xl dark:border-white/10">
         <CardHeader className="text-center">
           <CardTitle className="text-4xl font-playfair font-bold text-velvet dark:text-white mb-2">
             Welcome Back
@@ -65,7 +65,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
-                className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
+                className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
                 required
               />
             </div>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
+                className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10 focus:border-saffron dark:focus:border-saffron"
                 required
               />
             </div>

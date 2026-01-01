@@ -54,8 +54,8 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-slate-950 dark:via-purple-950/20 dark:to-slate-900 transition-colors duration-300 flex items-center justify-center p-8">
-      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-white/5 border-0 shadow-2xl dark:border-white/10">
+    <div className="min-h-screen bg-gradient-to-br from-pearl via-white to-pearl/80 dark:from-black dark:via-neutral-950 dark:to-black transition-colors duration-300 flex items-center justify-center p-8">
+      <Card className="w-full max-w-md backdrop-blur-xl bg-white/70 dark:bg-neutral-950/70 border-0 shadow-2xl dark:border-white/10">
         <CardHeader className="text-center">
           <div className="w-20 h-20 bg-gradient-to-r from-saffron to-gold rounded-2xl mx-auto mb-6 flex items-center justify-center">
             <Users className="w-10 h-10 text-white" />
@@ -76,7 +76,7 @@ export default function RegisterPage() {
                 Account Type
               </Label>
               <Select value={role} onValueChange={setRole}>
-                <SelectTrigger className="font-jakarta h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10">
+                <SelectTrigger className="font-jakarta h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -102,7 +102,7 @@ export default function RegisterPage() {
                 <Users className="w-4 h-4 text-saffron" />
                 Full Name
               </Label>
-              <Input name="name" required placeholder="John Doe" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
+              <Input name="name" required placeholder="John Doe" className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Email */}
@@ -111,7 +111,7 @@ export default function RegisterPage() {
                 <Mail className="w-4 h-4 text-saffron" />
                 Email
               </Label>
-              <Input name="email" type="email" required placeholder="john@example.com" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
+              <Input name="email" type="email" required placeholder="john@example.com" className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Phone (optional) */}
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                 <Phone className="w-4 h-4 text-saffron" />
                 Phone
               </Label>
-              <Input name="phone" type="tel" placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
+              <Input name="phone" type="tel" placeholder="+91 98765 43210" className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10" />
             </div>
 
             {/* Password */}
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                 <Lock className="w-4 h-4 text-saffron" />
                 Password
               </Label>
-              <Input name="password" type="password" required minLength={6} placeholder="••••••••" className="h-12 rounded-2xl bg-white/50 dark:bg-white/5 border-gray-200 dark:border-white/10" />
+              <Input name="password" type="password" required minLength={6} placeholder="••••••••" className="h-12 rounded-2xl bg-white/50 dark:bg-neutral-900/50 border-gray-200 dark:border-white/10" />
             </div>
 
             <Button
