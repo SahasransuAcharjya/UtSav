@@ -9,13 +9,16 @@ const genAI = GEMINI_API_KEY
 // POST /api/gemini/refine-event
 export const refineEventDetails = async (req, res) => {
   try {
+    console.log('Gemini Controller: Request received');
     if (!genAI) {
+      console.error('Gemini Controller: API Key missing');
       return res.status(500).json({ message: 'Gemini API key not configured' });
     }
 
     const { rawDescription, guestCount, location, eventType, budgetHint } = req.body;
+    console.log('Gemini Controller: Input', { rawDescription, guestCount });
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
     const prompt = `
 You are an assistant for an event management platform called UtSav.
@@ -32,12 +35,14 @@ Budget hint: ${budgetHint || 'not provided'}
 Keep it short and professional.
 `;
 
+    console.log('Gemini Controller: Generating content...');
     const result = await model.generateContent(prompt);
     const text = result.response.text();
+    console.log('Gemini Controller: Response generated', text ? text.substring(0, 50) + '...' : 'EMPTY');
 
     return res.json({ summary: text });
   } catch (err) {
     console.error('Gemini refine error:', err);
-    return res.status(500).json({ message: 'Gemini error' });
+    return res.status(500).json({ message: 'Gemini error', error: err.message });
   }
 };

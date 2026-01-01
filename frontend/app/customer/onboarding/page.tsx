@@ -26,6 +26,7 @@ export default function CustomerOnboarding() {
 
     // Call Gemini API
     try {
+      console.log('Frontend: Sending request to Gemini API...');
       const res = await fetch('http://localhost:5000/api/gemini/refine-event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -36,11 +37,18 @@ export default function CustomerOnboarding() {
         }),
       });
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const data = await res.json() as { summary: string };
+      console.log('Frontend: Response status:', res.status);
+      const data = await res.json();
+      console.log('Frontend: Response data:', data);
+
+      if (!res.ok || !data.summary) {
+        throw new Error(data.message || 'Failed to generate summary');
+      }
+
       setMessages(prev => [...prev, { role: 'ai', content: data.summary }]);
       setSummary(data.summary);
     } catch (error) {
+      console.error('Frontend: Chat error:', error);
       setMessages(prev => [...prev, {
         role: 'ai',
         content: 'Sorry, AI assistant is temporarily unavailable. Please describe your event manually.'
